@@ -2,6 +2,7 @@
 
 var gCanvas;
 var gCtx;
+var gMeme;
 
 function initMemeGenerator(){
     initCanvas();
@@ -24,8 +25,8 @@ function renderImages(){
 }
 
 function onCreateMeme(imgId){
-    var meme = createMeme(imgId);
-    renderMemeGen(meme);
+    gMeme = createMeme(imgId);
+    renderMemeGen(gMeme);
 }
 
 function renderMemeGen(meme){
@@ -46,7 +47,7 @@ function renderCanvas(meme){
     imgCanvas.onload = function () {
         gCtx.drawImage(imgCanvas, 0, 0, gCanvas.width, gCanvas.height);
         meme.lines.forEach(function (line) {
-            gCtx.strokeText(line.txt, 30, 30);
+            gCtx.strokeText(line.txt, line.posX, line.posY);
         })
     };
 
@@ -90,4 +91,9 @@ function onShowGallery(){
         document.querySelector('.grid').style.display = 'grid';
         //hide canvas editor
         document.querySelector('.main-canvas').classList.add('hide');
+}
+
+function onTxtInsert(elLine) {
+        gMeme.lines[0].txt = elLine.value;
+        renderCanvas(gMeme);
 }

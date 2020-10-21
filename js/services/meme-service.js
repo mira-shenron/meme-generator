@@ -51,11 +51,14 @@ function createMeme(imgId) {
         width: null,
         height: null,
         lines: [
-            {
-                txt: 'I never eat Falafel',
+            {   
+                id: null,
+                txt: 'Demo text',
                 size: 20,
                 align: 'left',
                 color: 'red',
+                posX: 30,
+                posY: 30
             }
         ]
     }
