@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Meme Generator</title>
+</head>
+
+<body onload="initMemeGenerator()">
+
+
+    <header class="main-header">
+        <div class="container flex space-between align-center">
+
+            <div class="logo">memegen</div>
+
+            <ul class="main-nav clean-list flex align-center">
+                <li><a href="#" class="link gallery-link" onclick="onShowGallery()">Gallery</a></li>
+                <li><a href="#" class="link about-link">About</a></li>
+            </ul>
+
+        </div>
+    </header>
+
+
+    <section class="main-container">
+
+        <div class="gallery container">
+            <div class="img-container grid"></div>
+        </div>
+
+        <div class="main-canvas container hide">
+            <div class="canvas-container flex justify-center align-center">
+                <canvas id="mem-canvas" class="canvas"></canvas>
+
+
+                <div class="editor flex space-between align-center">
+
+                    <div class="text flex align-center">
+                        <input type="text" placeholder="Enter text here">
+
+                        <div class="position-btns">
+                            <img class="editor-btns-img" src="whiteIcons/up-down.png" width=30 height=30 alt="">
+                            <img class="editor-btns-img" src="whiteIcons/add.png" width=30 height=30 alt="">
+                            <img class="editor-btns-img" src="whiteIcons/trash.png" width=30 height=30 alt="">
+                        </div>
+
+                    </div>
+
+                    <div class="style-text flex">
+                        <div class="text-edit-btns">
+                            <img class="editor-btns-img" src="whiteIcons/font-increase.png" alt="">
+                            <img class="editor-btns-img" src="whiteIcons/font-decrese.png" alt="">
+                            <img class="editor-btns-img" src="whiteIcons/align-to-left.png" alt="">
+                            <img class="editor-btns-img" src="whiteIcons/align-to-right.png" alt="">
+                            <img class="editor-btns-img" src="whiteIcons/align-to-center.png" alt="">
+                        </div>
+                        <div class="font-color-btns flex">
+                            <ul class="font-choise clean-list">
+                                <li>Impact</li>
+                            </ul>
+                            <img class="editor-btns-img" src="whiteIcons/stroke.png" alt="">
+                            <img class="editor-btns-img" src="whiteIcons/paint.png" alt="">
+                        </div>
+                    </div>
+
+                    <div class="stickers flex">stickers here</div>
+
+                    <div class="share-btn flex justify-center align-center">Share</div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <footer class="footer-container flex align-center justify-center">
+        <div class="logo">memegen</div>
+        <small>all rights reserved 2020</small>
+    </footer>
+
+
+    <script src="js/meme-controller.js"></script>
+    <script src="js/services/meme-service.js"></script>
+</body>
+
+</html>
