@@ -10,78 +10,92 @@
 
 <body onload="initMemeGenerator()">
 
-
     <header class="main-header">
         <div class="container flex space-between align-center">
-
+            <div class="screen" onclick="toggleMenu()"></div>
             <div class="logo">memegen</div>
-
             <ul class="main-nav clean-list flex align-center">
                 <li><a href="#" class="link gallery-link" onclick="onShowGallery()">Gallery</a></li>
                 <li><a href="#" class="link about-link">About</a></li>
             </ul>
-
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
         </div>
     </header>
 
-
     <section class="main-container">
-
         <div class="gallery container">
             <div class="img-container grid"></div>
         </div>
-
         <div class="main-canvas container hide">
             <div class="canvas-container flex justify-center align-center">
                 <canvas id="mem-canvas" class="canvas"></canvas>
 
-
                 <div class="editor flex space-between align-center">
 
                     <div class="text flex align-center">
-                        <input type="text" placeholder="Enter text here" oninput="onTxtInsert(this)" autofocus>
+                        <input id="txt-input" type="text" placeholder="Enter text here" oninput="onTxtInsert(this)"
+                            autofocus>
 
                         <div class="position-btns">
-                            <img class="editor-btns-img" src="whiteIcons/up-down.png" width=30 height=30 alt="">
-                            <img class="editor-btns-img" src="whiteIcons/add.png" width=30 height=30 alt="">
-                            <img class="editor-btns-img" src="whiteIcons/trash.png" width=30 height=30 alt="">
+                            <img class="editor-btns-img" onclick="onChangeLine()" src="whiteIcons/select.png" width=30
+                                height=30 alt="">
+                            <img class="editor-btns-img" onclick="onAddLine()" src="whiteIcons/add.png" width=30
+                                height=30 alt="">
+                            <img class="editor-btns-img" onclick="onDeleteLine()" src="whiteIcons/trash.png" width=30
+                                height=30 alt="">
+                            <img class="editor-btns-img" onclick="onMoveLine(-1)" src="whiteIcons/up.png" width=30
+                                height=30 alt="">
+                            <img class="editor-btns-img" onclick="onMoveLine(1)" src="whiteIcons/down.png" width=30
+                                height=30 alt="">
                         </div>
 
                     </div>
 
                     <div class="style-text flex">
                         <div class="text-edit-btns">
-                            <img class="editor-btns-img" src="whiteIcons/font-increase.png" alt="">
-                            <img class="editor-btns-img" src="whiteIcons/font-decrese.png" alt="">
-                            <img class="editor-btns-img" src="whiteIcons/align-to-left.png" alt="">
-                            <img class="editor-btns-img" src="whiteIcons/align-to-right.png" alt="">
-                            <img class="editor-btns-img" src="whiteIcons/align-to-center.png" alt="">
+                            <img class="editor-btns-img" onclick="onFontSizeChange(1)"
+                                src="whiteIcons/font-increase.png" alt="">
+                            <img class="editor-btns-img" onclick="onFontSizeChange(-1)"
+                                src="whiteIcons/font-decrese.png" alt="">
+                            <img class="editor-btns-img" onclick="onAlign('start')" src="whiteIcons/align-to-left.png"
+                                alt="">
+                            <img class="editor-btns-img" onclick="onAlign('end')" src="whiteIcons/align-to-right.png"
+                                alt="">
+                            <img class="editor-btns-img" onclick="onAlign('center')"
+                                src="whiteIcons/align-to-center.png" alt="">
                         </div>
                         <div class="font-color-btns flex">
-                            <ul class="font-choise clean-list">
-                                <li>Impact</li>
-                            </ul>
-                            <img class="editor-btns-img" src="whiteIcons/stroke.png" alt="">
-                            <img class="editor-btns-img" src="whiteIcons/paint.png" alt="">
+                            <form class="font-choise" oninput="onFontChange()">
+                                <select id="font-choise" name="fonts" class="font-options">
+                                    <option id="impact" class="font" value="Impact">Impact</option>
+                                    <option id="arial" class="font" value="Arial">Arial</option>
+                                    <option id="monospace" class="font" value="monospace">Monospace</option>
+                                </select>
+                            </form>
+
+                            <input class="color-input" type="color" id="strokeColor" name="strokeColor"
+                                oninput="changeStrokeColor()" class="input" value="#ffffff" />
+                            <input class="color-input" type="color" id="textColor" name="textColor"
+                                oninput="changeTextColor()" class="input" value="#000000" />
                         </div>
                     </div>
 
-                    <div class="stickers flex">stickers here</div>
+                    <div class="stickers flex">stickers placeholder</div>
 
-                    <div class="share-btn flex justify-center align-center">Share</div>
-
+                    <div class="actions flex align-center">
+                        <a href="#" class="share-btn flex justify-center align-center">Share</a>
+                        <a href="#" class="share-btn flex justify-center align-center" onclick="downloadAsImg(this)"
+                            download="my-img.jpg">Download</a>
+                    </div>
                 </div>
             </div>
         </div>
-
     </section>
-
 
     <footer class="footer-container flex align-center justify-center">
         <div class="logo">memegen</div>
         <small>all rights reserved 2020</small>
     </footer>
-
 
     <script src="js/meme-controller.js"></script>
     <script src="js/services/meme-service.js"></script>
