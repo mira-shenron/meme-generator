@@ -441,11 +441,6 @@ small{
         height: 300px;
     }
 
-    .img{
-        /* object-fit:cover; */
-        /* object-position: center; */
-    }
-
 }
 
 @media screen and (max-width: 420px){
