@@ -1,41 +1,71 @@
 'use strict';
 
-
 var gImgs;
 var gMeme;
+var gKeywords;
+
 const startPosX = 60;
 const startPosY = 60;
 
 function createImages() {
     gImgs = [
-        { id: '1', url: 'squareimgs/1.jpg', keywords: [] },
-        { id: '2', url: 'squareimgs/2.jpg', keywords: [] },
-        { id: '3', url: 'squareimgs/3.jpg', keywords: [] },
-        { id: '4', url: 'squareimgs/4.jpg', keywords: [] },
-        { id: '5', url: 'squareimgs/5.jpg', keywords: [] },
-        { id: '6', url: 'squareimgs/6.jpg', keywords: [] },
-        { id: '7', url: 'squareimgs/7.jpg', keywords: [] },
-        { id: '8', url: 'squareimgs/8.jpg', keywords: [] },
-        { id: '9', url: 'squareimgs/9.jpg', keywords: [] },
-        { id: '10', url: 'squareimgs/10.jpg', keywords: [] },
-        { id: '11', url: 'squareimgs/11.jpg', keywords: [] },
-        { id: '12', url: 'squareimgs/12.jpg', keywords: [] },
-        { id: '13', url: 'squareimgs/13.jpg', keywords: [] },
-        { id: '14', url: 'squareimgs/14.jpg', keywords: [] },
-        { id: '15', url: 'squareimgs/15.jpg', keywords: [] },
-        { id: '16', url: 'squareimgs/16.jpg', keywords: [] },
-        { id: '17', url: 'squareimgs/17.jpg', keywords: [] },
-        { id: '18', url: 'squareimgs/18.jpg', keywords: [] }
+        { id: '1', url: 'squareimgs/1.jpg', keywords: ['people'] },
+        { id: '2', url: 'squareimgs/2.jpg', keywords: ['dogs', 'animals'] },
+        { id: '3', url: 'squareimgs/3.jpg', keywords: ['dogs', 'animals', 'children', 'people'] },
+        { id: '4', url: 'squareimgs/4.jpg', keywords: ['animals'] },
+        { id: '5', url: 'squareimgs/5.jpg', keywords: ['children', 'people'] },
+        { id: '6', url: 'squareimgs/6.jpg', keywords: ['seople', 'smiles'] },
+        { id: '7', url: 'squareimgs/7.jpg', keywords: ['children', 'people'] },
+        { id: '8', url: 'squareimgs/8.jpg', keywords: ['people', 'smiles'] },
+        { id: '9', url: 'squareimgs/9.jpg', keywords: ['children', 'smiles'] },
+        { id: '10', url: 'squareimgs/10.jpg', keywords: ['people', 'smiles'] },
+        { id: '11', url: 'squareimgs/11.jpg', keywords: ['people'] },
+        { id: '12', url: 'squareimgs/12.jpg', keywords: ['people'] },
+        { id: '13', url: 'squareimgs/13.jpg', keywords: ['people', 'smiles', 'movies'] },
+        { id: '14', url: 'squareimgs/14.jpg', keywords: ['people', 'movies'] },
+        { id: '15', url: 'squareimgs/15.jpg', keywords: ['people', 'movies'] },
+        { id: '16', url: 'squareimgs/16.jpg', keywords: ['people', 'smiles', 'movies'] },
+        { id: '17', url: 'squareimgs/17.jpg', keywords: ['people'] },
+        { id: '18', url: 'squareimgs/18.jpg', keywords: ['smiles', 'movies'] }
     ];
 
     return gImgs;
 }
 
-function getImages() {
-    if (!gImgs) {
-        gImgs = createImages();
-    }
-    return gImgs;
+function createKeywords() {
+    gKeywords = [
+        { word: 'people', count: 12 },
+        { word: 'dogs', count: 28 },
+        { word: 'animals', count: 22 },
+        { word: 'children', count: 14 },
+        { word: 'smiles', count: 23 },
+        { word: 'movies', count: 16 },
+        { word: 'All', count: 30 }
+    ];
+}
+
+function getKeywords() {
+    if (!gKeywords) createKeywords();
+    return gKeywords;
+}
+
+function getImages(sortBy) {
+    if (!gImgs) gImgs = createImages();
+    if (sortBy === 'none' || sortBy === '' || sortBy === 'All') return gImgs;
+    else return sortImgs(sortBy);
+}
+
+function increaseKeywordCount(keyword) {
+    if (keyword === 'All') return;
+    var kWord = gKeywords.find(kWord => kWord.word === keyword);
+    if (kWord.count < 35) kWord.count++;
+}
+
+function sortImgs(sortBy) {
+    var sortedImgs = gImgs.filter(img => {
+        return img.keywords.find(word => word.startsWith(sortBy.toLowerCase()))
+    })
+    return sortedImgs;
 }
 
 function getCurrMem() {
@@ -51,8 +81,10 @@ function createMeme(imgId) {
         selectedLineIdx: 0,
         width: null,
         height: null,
+        stickers:[],
         lines: [
             {
+                id: makeId(),
                 txt: 'Enter text here',
                 size: 30,
                 align: 'start',
@@ -74,9 +106,8 @@ function getCurrImg(imgId) {
 }
 
 function deleteMemeLine() {
-
     if (gMeme.lines.length === 1) {
-        resetLineSettings(gMeme.lines.length-1);
+        resetLineSettings(gMeme.lines.length - 1);
         return gMeme;
     }
 
@@ -88,6 +119,7 @@ function deleteMemeLine() {
 function addNewMemeLine(canvasHeight) {
     var newPosY = calculatePosY(canvasHeight);
     var line = {
+        id: makeId(),
         txt: 'Enter text here',
         size: 30,
         align: 'start',
@@ -101,11 +133,14 @@ function addNewMemeLine(canvasHeight) {
     return gMeme;
 }
 
-function changeCurrLine() {
-    if (gMeme.lines.length > 1) {
+function changeCurrLine(id) {
+    if (gMeme.lines.length > 1 && (!id)) {
         gMeme.selectedLineIdx = (gMeme.selectedLineIdx + 1) % gMeme.lines.length;
     }
-    console.log(gMeme.selectedLineIdx);
+    if (id) {
+        var lineIdx = gMeme.lines.findIndex(line => line.id === id)
+        gMeme.selectedLineIdx = lineIdx;
+    }
     return gMeme;
 }
 
@@ -171,7 +206,7 @@ function moveCurrLine(diff, canvasHeight) {
     return gMeme;
 }
 
-function resetLineSettings(lineIdx){
+function resetLineSettings(lineIdx) {
     gMeme.lines[lineIdx].txt = 'Enter text here';
     gMeme.lines[lineIdx].size = 30;
     gMeme.lines[lineIdx].align = 'start';
@@ -180,4 +215,25 @@ function resetLineSettings(lineIdx){
     gMeme.lines[lineIdx].textColor = '#ffffff';
     gMeme.lines[lineIdx].strokeColor = '#000000';
     gMeme.lines[lineIdx].font = 'Impact';
+}
+
+function changePosY(diff) {
+    gMeme.lines[gMeme.selectedLineIdx].posY += diff;
+}
+
+function changePosX(diff) {
+    gMeme.lines[gMeme.selectedLineIdx].posX += diff;
+}
+
+function addStickerToMeme(stickerUrl, posX, posY, stickerWidth, stickerHeight){
+    var sticker = {
+        id: makeId(),
+        stickerUrl,
+        posX,
+        posY,
+        stickerWidth,
+        stickerHeight
+    }
+
+    gMeme.stickers.push(sticker);
 }
