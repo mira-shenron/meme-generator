@@ -70,7 +70,7 @@ function renderStickers(meme) {
     })
 }
 
-function renderLines(meme){
+function renderLines(meme, noArrow){
     meme.lines.forEach(function (line, index) {
         gCtx.font = `${line.size}px ${line.font}`;
         gCtx.textAlign = line.align;
@@ -79,7 +79,7 @@ function renderLines(meme){
         gCtx.strokeText(line.txt, line.posX, line.posY);
         gCtx.fillText(line.txt, line.posX, line.posY);
 
-        if (index === meme.selectedLineIdx) {
+        if (index === meme.selectedLineIdx && noArrow === undefined) {
             gCtx.fillStyle = '#ff7f00';
             gCtx.font = "30px Impact";
             if (gCtx.textAlign === 'start') gCtx.fillText('🢂', 10, line.posY);
@@ -89,7 +89,7 @@ function renderLines(meme){
     })
 }
 
-function renderCanvas(meme) {
+function renderCanvas(meme, noArrow) {
     var img = getCurrImg(meme.selectedImgId);
     var imgCanvas = new Image();
     imgCanvas.src = img.url;
@@ -98,7 +98,7 @@ function renderCanvas(meme) {
         gCtx.drawImage(imgCanvas, 0, 0, gCanvas.width, gCanvas.height);
 
         renderStickers(meme);
-        renderLines(meme);
+        renderLines(meme,noArrow);
 
         gCtx.closePath();
         gCtx.save();
@@ -142,9 +142,9 @@ function canvasClicked(ev) {
     var meme = getCurrMem();
 
     const clickedLine = meme.lines.find(line => {
-        if (line.align === 'start') return offsetX > line.posX && offsetX < line.posX + gCtx.measureText(line.txt).width + 20 && offsetY > line.posY && offsetY < line.posY + line.size + 30;
+        if (line.align === 'start') return offsetX > line.posX && offsetX < line.posX + gCtx.measureText(line.txt).width && offsetY > line.posY && offsetY < line.posY + line.size + 30;
         if (line.align === 'end') return offsetX < line.posX + 20 && offsetX > line.posX - gCtx.measureText(line.txt).width && offsetY > line.posY && offsetY < line.posY + line.size + 30;
-        if (line.align === 'center') return offsetX > line.posX - gCtx.measureText(line.txt).width / 2 && offsetX < line.posX + gCtx.measureText(line.txt).width / 2 && offsetY > line.posY && offsetY < line.posY + line.size + 30;
+        if (line.align === 'center') return offsetX > line.posX - gCtx.measureText(line.txt).width/2  && offsetX < line.posX + gCtx.measureText(line.txt).width/2 && offsetY > line.posY && offsetY < line.posY + line.size + 30;
     })
 
     if (clickedLine) {
@@ -271,6 +271,8 @@ function onMoveLine(diff) {
 }
 
 function downloadAsImg(elLink) {
+    var meme = getCurrMem();
+    renderCanvas(meme,true);
     var imgContent = gCanvas.toDataURL('image/jpg');
     elLink.href = imgContent;
 }

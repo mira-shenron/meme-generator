@@ -426,7 +426,7 @@ small{
     }
 
     .grid{
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns:1fr;
         grid-auto-rows: 60px;
     }
 
@@ -441,6 +441,18 @@ small{
         height: 300px;
     }
 
+    .img{
+        /* object-fit:cover; */
+        /* object-position: center; */
+    }
+
+}
+
+@media screen and (max-width: 420px){
+    .grid{
+        padding-left:0;
+        padding-right: 0;
+    }
 }
 
 
