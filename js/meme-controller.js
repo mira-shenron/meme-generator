@@ -150,8 +150,7 @@ function canvasClicked(ev) {
     if (clickedLine) {
         gPrevPos.x = offsetX;
         gPrevPos.y = offsetY;
-        meme = changeCurrLine(clickedLine.id);
-        renderCanvas(meme);
+        onChangeLine(clickedLine.id);
         gIsDragging = true;
     }
 }
@@ -232,9 +231,9 @@ function clearSettings() {
     document.getElementById('textColor').value = '#ffffff';
 }
 
-function onChangeLine() {
+function onChangeLine(lineId) {
     document.getElementById('txt-input').value = '';
-    var meme = changeCurrLine();
+    var meme = changeCurrLine(lineId);
 
     document.getElementById('strokeColor').value = meme.lines[meme.selectedLineIdx].strokeColor;
     document.getElementById('textColor').value = meme.lines[meme.selectedLineIdx].textColor;
