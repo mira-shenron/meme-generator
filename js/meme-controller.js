@@ -344,8 +344,11 @@ function drop(ev) {
 function onSaveMeme() {
     var meme = getCurrMem();
     renderCanvas(meme, true);
-    saveMeme(gCanvas.toDataURL());
-    showMemes();
+
+    setTimeout(function(){
+        saveMeme(gCanvas.toDataURL());
+        showMemes();
+    }, 100);
 }
 
 function showMemes(){
