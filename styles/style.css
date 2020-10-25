@@ -105,6 +105,7 @@ span{
     background-color:  #ff7f00;
     border-radius: 5px;
     border: none;
+    cursor: pointer;
 }
 
 .close-btn{
