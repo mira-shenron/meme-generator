@@ -195,6 +195,14 @@ span{
     flex-direction: column;
 }
 
+.arrow{
+    border-radius: 12px;
+}
+
+.stickImg{
+    padding: 5px;
+}
+
 /********************* editor-btns *********************/
 .editor-btns-img{
     width:60px;
@@ -369,8 +377,8 @@ small{
     }
 
     .stickers > *{
-        width:40px;
-        height:40px;
+        width:45px;
+        height:45px;
     }
 
     .keyword{

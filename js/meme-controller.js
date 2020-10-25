@@ -39,8 +39,26 @@ function renderKeywords() {
 function onCreateMeme(imgId) {
     var meme = createMeme(imgId);
     renderMemeGen(meme);
+    renderStickersArea(0);
 }
 
+function renderStickersArea(pageIdx){
+    var stickers = getStickers(pageIdx);
+    if(stickers.length === 0) return;
+
+    var stickersHTMLs = '<img class="arrow flex" onclick="moveStickers(-1)" src="whiteIcons/left.png" width=60 height=60 alt="">';
+    var innerElems = stickers.map(sticker => {
+        return `<img class="stickImg" id="${sticker.id}" src="${sticker.url}" draggable="true" ondragstart="drag(event)" width=60 height=60 alt="">`
+    });
+    stickersHTMLs += innerElems.join('');
+    stickersHTMLs += '<img class="arrow flex" onclick="moveStickers(1)" src="whiteIcons/right.png" width=60 height=60 alt="">';
+    var elStickers = document.querySelector('.stickers');
+    elStickers.innerHTML = stickersHTMLs;
+}
+
+function moveStickers(diff){
+    renderStickersArea(diff);
+}
 
 function onSearchByKeyword(elKeyword) {
     renderImages(elKeyword.innerText);
@@ -359,7 +377,7 @@ function renderSavedMemes(memes){
         return `
         <div class="meme-section flex align-center">
             <img class="meme" src=${mem.imgDataURL} width="200px" height="200px">
-            <button class="btn delete-meme" onclick="onDeleteMeme('${mem.id}')">Delete</button>
+            <button class="btn share-btn delete-meme" onclick="onDeleteMeme('${mem.id}')">Delete</button>
         </div>`
     });
     var elMemes = document.querySelector('.memes-container');
@@ -370,8 +388,6 @@ function onDeleteMeme(memId){
     var memes = deleteMeme(memId);
     renderSavedMemes(memes);
 }
-
-
 
 
 

@@ -45,7 +45,8 @@
         <div class="main-canvas container hide">
             <div class="canvas-container flex justify-center align-center">
                 <canvas id="mem-canvas" class="canvas" onmousedown="canvasClicked(event)"
-                    onmousemove="onDragLine(event)" onmouseup="onStopDragging(event)" ondrop="drop(event)" ondragover="allowDrop(event)"></canvas>
+                    onmousemove="onDragLine(event)" onmouseup="onStopDragging(event)" ondrop="drop(event)"
+                    ondragover="allowDrop(event)"></canvas>
                 <div class="editor flex space-between align-center">
 
                     <div class="text flex align-center">
@@ -97,23 +98,12 @@
                     </div>
 
                     <div class="stickers flex">
-                        <img id="apple" class="apple" src="stickers/apple.png" draggable="true"
-                            ondragstart="drag(event)" width=60 height=60 alt="">
-                        <img id="crown" src="stickers/crown.png" draggable="true" ondragstart="drag(event)" width=60
-                            height=60 alt="">
-                        <img id="fire" src="stickers/fire.png" draggable="true" ondragstart="drag(event)" width=60
-                            height=60 alt="">
-                        <img id="panda" src="stickers/panda.png" draggable="true" ondragstart="drag(event)" width=60
-                            height=60 alt="">
-                        <img id="lollilop" src="stickers/lollilop.png" draggable="true" ondragstart="drag(event)"
-                            width=60 height=60 alt="">
-                        <img id="ok" src="stickers/ok.png" draggable="true" ondragstart="drag(event)" width=60 height=60
-                            alt="">
                     </div>
 
                     <div class="actions flex align-center">
                         <a href="#" class="btn flex justify-center align-center" onclick="onSaveMeme()">Save</a>
-                        <a href="#" class="btn flex justify-center align-center" onclick="downloadAsImg(this)" download="my-img.jpg">Download</a>
+                        <a href="#" class="btn flex justify-center align-center" onclick="downloadAsImg(this)"
+                            download="my-img.jpg">Download</a>
                     </div>
                 </div>
             </div>

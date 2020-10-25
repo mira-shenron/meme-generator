@@ -3,6 +3,8 @@
 var gImgs;
 var gMeme;
 var gKeywords;
+var gStickers;
+var gCurrStickersPage = 0;
 
 const startPosX = 60;
 const startPosY = 60;
@@ -31,6 +33,36 @@ function createImages() {
 
     return gImgs;
 }
+
+function createStickers() {
+    gStickers = [
+        { id: 'apple', url: 'stickers/apple.png'},
+        { id: 'crown', url: 'stickers/crown.png'},
+        { id: 'fire', url: 'stickers/fire.png'},
+        { id: 'panda', url: 'stickers/panda.png'},
+        { id: 'lollilop', url: 'stickers/lollilop.png'},
+        { id: 'rock', url: 'stickers/rock.png'},
+        { id: 'ok', url: 'stickers/ok.png'},
+        { id: 'omg', url: 'stickers/omg.png'},
+        { id: 'rainbow', url: 'stickers/rainbow.png'}
+    ];
+}
+
+function getStickers(pageIdx=0){
+    if(!gStickers){
+        createStickers();
+    }
+
+    var currPageStickers = [];
+    if(gCurrStickersPage + pageIdx < 0 || gCurrStickersPage + pageIdx > gStickers.length-4) return currPageStickers;
+    gCurrStickersPage += pageIdx;
+    currPageStickers.push(gStickers[gCurrStickersPage]);
+    currPageStickers.push(gStickers[gCurrStickersPage+1]);
+    currPageStickers.push(gStickers[gCurrStickersPage+2]);
+    currPageStickers.push(gStickers[gCurrStickersPage+3]);
+    return currPageStickers;
+}
+
 
 function createKeywords() {
     gKeywords = [
@@ -81,7 +113,7 @@ function createMeme(imgId) {
         selectedLineIdx: 0,
         width: null,
         height: null,
-        stickers:[],
+        stickers: [],
         lines: [
             {
                 id: makeId(),
@@ -225,7 +257,7 @@ function changePosX(diff) {
     gMeme.lines[gMeme.selectedLineIdx].posX += diff;
 }
 
-function addStickerToMeme(stickerUrl, posX, posY, stickerWidth, stickerHeight){
+function addStickerToMeme(stickerUrl, posX, posY, stickerWidth, stickerHeight) {
     var sticker = {
         id: makeId(),
         stickerUrl,
