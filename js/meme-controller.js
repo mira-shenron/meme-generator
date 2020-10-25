@@ -66,6 +66,7 @@ function onSearchByKeyword(elKeyword) {
     renderKeywords();
 
     if(elKeyword.innerText === 'All'){
+        document.getElementById('search-input').value='';
         document.getElementById('search-input').placeholder='Enter search keyword';
     }else{
         document.getElementById('search-input').value = elKeyword.innerText;
