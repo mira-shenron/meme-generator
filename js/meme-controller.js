@@ -46,6 +46,13 @@ function onSearchByKeyword(elKeyword) {
     renderImages(elKeyword.innerText);
     increaseKeywordCount(elKeyword.innerText);
     renderKeywords();
+
+    if(elKeyword.innerText === 'All'){
+        document.getElementById('search-input').placeholder='Enter search keyword';
+    }else{
+        document.getElementById('search-input').value = elKeyword.innerText;
+    }
+    
 }
 
 function renderMemeGen(meme) {
@@ -53,8 +60,15 @@ function renderMemeGen(meme) {
     document.querySelector('.gallery').style.display = 'none';
     document.querySelector('.grid').style.display = 'none';
     document.querySelector('.search-container').style.display = 'none';
+
+    //hide saved memes
+    document.querySelector('.saved-memes-container').classList.remove('hide');
+    document.querySelector('.memes-grid').style.display = 'none';
+
     //show canvas editor
     document.querySelector('.main-canvas').classList.remove('hide');
+    //reset input
+    document.getElementById('txt-input').placeholder='Enter text here';
 
     var imgDimension = renderCanvas(meme);
     renderCanvasSize(imgDimension, meme);
@@ -70,7 +84,7 @@ function renderStickers(meme) {
     })
 }
 
-function renderLines(meme, noArrow){
+function renderLines(meme, noArrow) {
     meme.lines.forEach(function (line, index) {
         gCtx.font = `${line.size}px ${line.font}`;
         gCtx.textAlign = line.align;
@@ -98,7 +112,7 @@ function renderCanvas(meme, noArrow) {
         gCtx.drawImage(imgCanvas, 0, 0, gCanvas.width, gCanvas.height);
 
         renderStickers(meme);
-        renderLines(meme,noArrow);
+        renderLines(meme, noArrow);
 
         gCtx.closePath();
         gCtx.save();
@@ -144,7 +158,7 @@ function canvasClicked(ev) {
     const clickedLine = meme.lines.find(line => {
         if (line.align === 'start') return offsetX > line.posX && offsetX < line.posX + gCtx.measureText(line.txt).width && offsetY > line.posY && offsetY < line.posY + line.size + 30;
         if (line.align === 'end') return offsetX < line.posX + 20 && offsetX > line.posX - gCtx.measureText(line.txt).width && offsetY > line.posY && offsetY < line.posY + line.size + 30;
-        if (line.align === 'center') return offsetX > line.posX - gCtx.measureText(line.txt).width/2  && offsetX < line.posX + gCtx.measureText(line.txt).width/2 && offsetY > line.posY && offsetY < line.posY + line.size + 30;
+        if (line.align === 'center') return offsetX > line.posX - gCtx.measureText(line.txt).width / 2 && offsetX < line.posX + gCtx.measureText(line.txt).width / 2 && offsetY > line.posY && offsetY < line.posY + line.size + 30;
     })
 
     if (clickedLine) {
@@ -193,9 +207,18 @@ function onShowGallery() {
     document.querySelector('.gallery').style.display = 'block';
     document.querySelector('.grid').style.display = 'grid';
 
+    document.getElementById('search-input').value ='';
+    document.getElementById('search-input').placeholder='Enter search keyword';
+
+    renderImages();
+
     //hide canvas editor
     document.querySelector('.main-canvas').classList.add('hide');
     document.body.classList.remove('menu-open');
+
+    //hide saved memes
+    document.querySelector('.saved-memes-container').classList.remove('hide');
+    document.querySelector('.memes-grid').style.display = 'none';
 }
 
 function onTxtInsert(elLine) {
@@ -272,7 +295,7 @@ function onMoveLine(diff) {
 
 function downloadAsImg(elLink) {
     var meme = getCurrMem();
-    renderCanvas(meme,true);
+    renderCanvas(meme, true);
     var imgContent = gCanvas.toDataURL('image/jpg');
     elLink.href = imgContent;
 }
@@ -299,7 +322,51 @@ function drop(ev) {
     renderCanvas(getCurrMem());
 }
 
+function onSaveMeme() {
+    var meme = getCurrMem();
+    renderCanvas(meme, true);
+    saveMeme(gCanvas.toDataURL());
+    showMemes();
+}
 
+function showMemes(){
+    var memes = getSavedMemes();
+    renderSavedMemesContainer(memes);
+}
+
+function renderSavedMemesContainer(memes) {
+    //hide gallery
+    document.querySelector('.gallery').style.display = 'none';
+    document.querySelector('.grid').style.display = 'none';
+    document.querySelector('.search-container').style.display = 'none';
+
+    //hide canvas editor
+    document.querySelector('.main-canvas').classList.add('hide');
+    document.body.classList.remove('menu-open');
+
+    //show saved memes
+    renderSavedMemes(memes);
+    document.querySelector('.saved-memes-container').classList.remove('hide');
+    document.querySelector('.memes-grid').style.display = 'grid';
+}
+
+function renderSavedMemes(memes){
+    var savedMemes = getSavedMemes();
+    var strHTMLs = savedMemes.map(mem => {
+        return `
+        <div class="meme-section flex align-center">
+            <img class="meme" src=${mem.imgDataURL} width="200px" height="200px">
+            <button class="btn delete-meme" onclick="onDeleteMeme('${mem.id}')">Delete</button>
+        </div>`
+    });
+    var elMemes = document.querySelector('.memes-container');
+    elMemes.innerHTML = strHTMLs.join('');
+}
+
+function onDeleteMeme(memId){
+    var memes = deleteMeme(memId);
+    renderSavedMemes(memes);
+}
 
 
 

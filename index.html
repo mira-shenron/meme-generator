@@ -18,7 +18,7 @@
             <ul class="main-nav clean-list flex">
                 <li><a href="#" class="flex align-center justify-center" onclick="onShowGallery()">Gallery<span
                             class="separator">|</span></a></li>
-                <li><a href="#" class="flex align-center justify-center">About</a></li>
+                <li><a href="#" class="flex align-center justify-center" onclick="showMemes()">Memes</a></li>
             </ul>
 
             <button class="hamburger" onclick="toggleMenu()">☰</button>
@@ -37,6 +37,10 @@
     <section class="main-container ondragover=" allowDrop(event)">
         <div class="gallery container">
             <div class="img-container grid"></div>
+        </div>
+        <div class="saved-memes-container container hide">
+            <div class="memes-container memes-grid">
+            </div>
         </div>
         <div class="main-canvas container hide">
             <div class="canvas-container flex justify-center align-center">
@@ -108,7 +112,7 @@
                     </div>
 
                     <div class="actions flex align-center">
-                        <a href="#" class="btn flex justify-center align-center">Share</a>
+                        <a href="#" class="btn flex justify-center align-center" onclick="onSaveMeme()">Save</a>
                         <a href="#" class="btn flex justify-center align-center" onclick="downloadAsImg(this)" download="my-img.jpg">Download</a>
                     </div>
                 </div>
@@ -121,6 +125,8 @@
         <small>all rights reserved 2020</small>
     </footer>
 
+    <script src="js/services/storage-service.js"></script>
+    <script src="js/services/saved-memes-service.js"></script>
     <script src="js/services/utils-service.js"></script>
     <script src="js/meme-controller.js"></script>
     <script src="js/services/meme-service.js"></script>
