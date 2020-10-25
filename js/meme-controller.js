@@ -68,6 +68,7 @@ function renderMemeGen(meme) {
     //show canvas editor
     document.querySelector('.main-canvas').classList.remove('hide');
     //reset input
+    document.getElementById('txt-input').value='';
     document.getElementById('txt-input').placeholder='Enter text here';
 
     var imgDimension = renderCanvas(meme);
