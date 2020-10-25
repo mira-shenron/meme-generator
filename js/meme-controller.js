@@ -353,6 +353,8 @@ function renderSavedMemesContainer(memes) {
 
 function renderSavedMemes(memes){
     var savedMemes = getSavedMemes();
+    if(!savedMemes) return;
+
     var strHTMLs = savedMemes.map(mem => {
         return `
         <div class="meme-section flex align-center">
