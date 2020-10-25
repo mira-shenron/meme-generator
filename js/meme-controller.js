@@ -86,10 +86,8 @@ function renderMemeGen(meme) {
 
     //show canvas editor
     document.querySelector('.main-canvas').classList.remove('hide');
-    //reset input
-    document.getElementById('txt-input').value='';
-    document.getElementById('txt-input').placeholder='Enter text here';
 
+    clearSettings();
     var imgDimension = renderCanvas(meme);
     renderCanvasSize(imgDimension, meme);
 }
@@ -269,7 +267,8 @@ function onDeleteLine() {
 }
 
 function clearSettings() {
-    document.getElementById('txt-input').value = '';
+    document.getElementById('txt-input').value='';
+    document.getElementById('txt-input').placeholder='Enter text here';
     document.getElementById('strokeColor').value = '#000000';
     document.getElementById('textColor').value = '#ffffff';
 }
